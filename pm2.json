@@ -1,0 +1,15 @@
+{
+  "apps": [{
+      "name"        : "koa2",
+      "script"      : "node bin/www",
+      "watch"       : false,
+      "log_date_format" : "YYYY-MM-DD HH:mm Z",
+      "cwd"         : "/home/services/koa2/htdocs",
+      "error_file"  : "/home/services/koa2/logs/koa2.err.log",
+      "out_file"  : "/home/services/koa2/logs/koa2.out.log",
+      "max_memory_restart": "2G",
+      "env": {
+          "NODE_ENV": "production"
+      }
+  }]
+}

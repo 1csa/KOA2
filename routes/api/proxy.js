@@ -19,7 +19,6 @@ function mapToQueryString(map) {
 router.all('/*', async function (ctx, next) {
   const method = ctx.request.method
   const params = ctx.request.query
-  console.log(params.targetUrl)
   if (!/^(https?:)/.test(params.targetUrl)) {
    return ctx.body = {
       code: -1,
@@ -27,8 +26,8 @@ router.all('/*', async function (ctx, next) {
       message: '/api/proxy/[targetUrl]，targetUrl 不合法',
     };
   }
-   let targetUrl = params.targetUrl;
-  targetUrl = targetUrl.replace(/http(s?):\//, 'http$1://');
+  let targetUrl = params.targetUrl;
+  // targetUrl = targetUrl.replace(/http(s?):\//, 'http$1://');
   delete params.targetUrl;
 
   if (Object.keys(params).length > 0) {
@@ -37,7 +36,7 @@ router.all('/*', async function (ctx, next) {
 
   const userInfo = ctx.request.header['x-user-info'];
   const baseHeaders = {
-    cookie: ctx.request.header.cookie,
+    cookie: ctx.request.header.cookie || '',
     'Content-Type': ctx.request.header['Content-Type'] || 'application/json',
   };
 
@@ -67,18 +66,12 @@ router.all('/*', async function (ctx, next) {
     }
   }
   try {
-    const ret = await axios(encodeURI(targetUrl), options).then(res => res.json());
-    if (targetUrl.indexOf('/task/take') > 0 || targetUrl.indexOf('/mat/result') > 0 || targetUrl.indexOf('/memu/status/andtags') > 0) {
-      console.log('这是正常输出===---===')
-      console.log(targetUrl)
-    }
-    return  ctx.body = ret;
+    const ret = await axios.request({
+      url: targetUrl,
+      ...options,
+    })
+    return  ctx.body = ret.data;
   } catch (e) {
-    if (targetUrl.indexOf('/task/take') > 0 || targetUrl.indexOf('/mat/result') > 0 || targetUrl.indexOf('/memu/status/andtags') > 0) {
-      console.log('这是error ++++++++===')
-      console.log(targetUrl)
-      console.log(e)
-    }
     return  ctx.body = {
       code: -1,
       status: 'failed',

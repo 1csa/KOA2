@@ -6,7 +6,7 @@ const apps = async (ctx, next) => {
   let data = ''
 
   try {
-    let path_app = path.join(process.cwd(), `./public/${name}/index.html`)
+    let path_app = path.join(process.cwd(), `./dist/${name}/index.html`)
     data = fs.readFileSync(path_app, { encoding: 'utf8' })
   } catch (e) {
     console.error(e);

@@ -1,4 +1,4 @@
-const router = require('koa-router')()
+const router = require('koa-router')() //实例化router对象
 
 router.get('/', async (ctx, next) => {
   await ctx.render('index', {
@@ -15,5 +15,6 @@ router.get('/json', async (ctx, next) => {
     title: 'koa2 json'
   }
 })
+
 
 module.exports = router

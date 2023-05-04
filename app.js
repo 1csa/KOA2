@@ -7,9 +7,9 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
-// const users = require('./routes/users')
-// const blog = require('./routes/blog')
-// const user = require('./routes/user')
+const users = require('./routes/users')
+const blog = require('./routes/blog')
+const user = require('./routes/user')
 const apiProxy = require('./routes/api/proxy')
 const routeApp = require('./routes/app')
 
@@ -41,10 +41,10 @@ const ENV = process.env.NODE_ENV
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-// app.use(users.routes(), users.allowedMethods())
+app.use(user.routes(), user.allowedMethods())
 // app.use(blog.routes(), blog.allowedMethods())
-app.use(apiProxy.routes(), apiProxy.allowedMethods())
-app.use(routeApp.routes(), routeApp.allowedMethods())
+// app.use(apiProxy.routes(), apiProxy.allowedMethods())
+// app.use(routeApp.routes(), routeApp.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

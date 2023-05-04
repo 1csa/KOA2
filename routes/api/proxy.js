@@ -19,6 +19,8 @@ function mapToQueryString(map) {
 router.all('/*', async function (ctx, next) {
   const method = ctx.request.method
   const params = ctx.request.query
+  console.log(params,'=====params');
+  console.log(method,'=====method');
   if (!/^(https?:)/.test(params.targetUrl)) {
    return ctx.body = {
       code: -1,

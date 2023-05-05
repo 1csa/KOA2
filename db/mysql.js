@@ -1,14 +1,28 @@
 const mysql = require('mysql')
 const { MYSQL_CONF } = require('../conf/db')
+const {Sequelize} = require('sequelize') 
 
+// const {host, user,password,database} = MYSQL_CONF
+//sequelize连接数据库
+// const seq = new Sequelize(database,user,password,{
+// 	host:host,
+// 	dialect:'mysql'
+// })
+// seq.authenticate().then(()=>{
+// 	console.log('数据库连接成功')
+// 	}
+// ).catch((err)=>{
+// 	console.log('数据库连接失败',err)
+// 	}
+// )
+// return seq
+//普通连接数据库 
 
- 
 const pool = mysql.createPool({
   ...MYSQL_CONF
 })
  
 const db =  (sql, values)=> {
-	console.log(sql,'=======');
   return new Promise((resolve, reject) => {
     pool.getConnection(function (err, connection) {
       if (err) {
@@ -26,7 +40,6 @@ const db =  (sql, values)=> {
               code: 400
             })
           } else {
-						console.log(results,'====results');
             resolve({
               code: 200,
               results,
@@ -46,8 +59,3 @@ module.exports = {
 	db,
 	escape: mysql.escape
 }
-// const  getUserByName = async (username) =>{
-//     return await db(`select * from user`)
-//   }
-  
-// getUserByName()

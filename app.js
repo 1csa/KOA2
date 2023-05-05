@@ -5,6 +5,8 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const session = require('koa-session')
+
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -45,6 +47,19 @@ app.use(user.routes(), user.allowedMethods())
 // app.use(blog.routes(), blog.allowedMethods())
 // app.use(apiProxy.routes(), apiProxy.allowedMethods())
 // app.use(routeApp.routes(), routeApp.allowedMethods())
+
+//session
+app.keys = ['some secret hurr'];		//cookie的签名
+const CONFIG = {
+    key: 'koa:sess', 		//默认为cookie的key；可以不管
+    maxAge: 86400000,			//cookie的过期时间，需要设置
+    overwrite: true, 		//设置没有效果，可以默认   
+    httpOnly: true,             //true表示只有服务器端可以获取
+    signed: true,           //签名默认
+    rolling: false,         //每次访问都去更新session
+    renew: true,            //快要过期时候访问重新设置session
+};
+app.use(session(CONFIG, app));
 
 // error-handling
 app.on('error', (err, ctx) => {
